@@ -1,0 +1,8 @@
+#requirements.txt
+
+telepot
+python-dotenv
+requests
+beautifulsoup4
+
+selenium
