@@ -55,8 +55,14 @@ def get_logement_summaries(soup) -> list[str]:
 
     summaries = []
     for card in cards:
-        title = card.find("h3", class_="fr-card__title").text.strip()
-        summaries.append(title)
+        description = card.find("h3", class_="fr-card__title").text.strip()
+        details = card.find(class_="fr-card__end")
+        if details:
+            details = (
+                details.text.strip().strip("(").strip(")").replace(", ", "\n     - ")
+            )
+            description += f"\n     - ({details})"
+        summaries.append(description)
 
     return summaries
 
@@ -169,6 +175,19 @@ def notify_users_of_exit(users, bot) -> None:
     logger.info("Notified everyone.")
 
 
+def load_users_conf():
+    """
+    Loads the users configuration from USERS_JSON environment variable if it exists, otherwise from users.json file.
+    """
+    if os.environ.get("USERS_JSON"):
+        users = loads(os.environ.get("USERS_JSON"))
+        logger.info("Users configuration loaded from USERS_JSON environment variable.")
+    else:
+        users = loads(open("users.json", "r").read())
+        logger.info("Users configuration loaded from users.json file.")
+    return users
+
+
 if __name__ == "__main__":
     load_dotenv()
     check_environment_variables_exist()
@@ -182,7 +201,7 @@ if __name__ == "__main__":
 
     bot = telepot.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
 
-    users = loads(open("users.json", "r").read())
+    users = load_users_conf()
 
     # Initialisation :
 
