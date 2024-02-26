@@ -4,7 +4,7 @@ Ce bot Python permet de notifier par Telegram la disponibilité de logements Cro
 
 ## Description
 
-Le bot vérifie régulièrement le site [Trouver un logement](https://trouverunlogement.lescrous.fr/) des Crous et envoie une notification Telegram si de nouveaux logements sont disponibles.
+Le bot parse le site [Trouver un logement](https://trouverunlogement.lescrous.fr/) des Crous et envoie une notification Telegram si de nouveaux logements sont disponibles.
 
 Les fonctionnalités :
 
@@ -12,7 +12,6 @@ Les fonctionnalités :
 - Pour chaque utilisateur Telegram et sa zone choisie :
   - Récupère les logements disponibles dans la zone
   - Envoie un message Telegram avec le nombre et les descriptions des logements
-- Relance la recherche toutes les X minutes
 
 ### Exemple
 
@@ -33,7 +32,7 @@ L'url de recherche sur [trouverunlogement.lescrous.fr](https://trouverunlogement
 
 Celle-ci doit faire référence à une zone géographique dans laquelle effectuer la recherche. Elle contient deux coordonnées géographiques qui définissent un rectangle.
 
-**Exemple** : https://trouverunlogement.lescrous.fr/tools/31/search?bounds=2.8265889_42.7488722_2.9825668_42.6492606
+**Exemple** : https://trouverunlogement.lescrous.fr/tools/32/search?bounds=2.8265889_42.7488722_2.9825668_42.6492606
 
 Elle peut être obtenue en effectuant une recherche par ville, ou en cliquant sur `Rechercher dans la zone` lors d'une recherche sur la carte.
 
@@ -58,31 +57,10 @@ Copier le fichier `.env.template` vers `.env` et le remplir correctement. Il con
 nécessaires pour se connecter à [trouverunlogement.lescrous.fr](https://trouverunlogement.lescrous.fr/),
 le token du bot Telegram, ainsi que d'autres paramètres.
 
-Remplir le fichier [users.json](./users.json) de cette façon :
-
-```json
-[
-  {
-    "username": "SuperMuel",
-    "telegramId": "1234XXXXXX",
-    "url": "https://trouverunlogement.lescrous.fr/tools/32/search?bounds=1.1981320381164553_44.344690837742164_1.21823787689209_44.3340248104619"
-  },
-  {
-    // + autres utilisateurs
-  }
-]
-```
-
-## Utilisation
+# Utilisation
 
 Lancer le script :
 
 ```bash
 python main.py
 ```
-
-Le bot vérifie le site des Crous à intervalle choisi et envoie une notification Telegram en cas de nouveaux logements disponibles.
-
-## Déploiement
-
-Le bot peut être déployé sur un service comme Heroku ou PythonAnywhere.
