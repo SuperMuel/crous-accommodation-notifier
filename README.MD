@@ -50,7 +50,7 @@ cd crous-accommodation-notifier
 Installer les dépendances :
 
 ```bash
-pip install -r requirements.txt
+poetry install
 ```
 
 Copier le fichier `.env.template` vers `.env` et le remplir correctement. Il contiendra les informations
@@ -62,5 +62,5 @@ le token du bot Telegram, ainsi que d'autres paramètres.
 Lancer le script :
 
 ```bash
-python main.py
+poetry run python main.py
 ```
