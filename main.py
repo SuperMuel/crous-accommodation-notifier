@@ -1,21 +1,19 @@
 import argparse
 import logging
-import os
 from typing import List
 
+import telepot
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service as ChromiumService
 from selenium.webdriver.chrome.webdriver import WebDriver
-import telepot
-from dotenv import load_dotenv
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+from chromedriver_py import binary_path  # this will get you the path variable
 
 from accommodation_parser import Authenticator, Parser
 from models import UserConf
 from notification_builder import NotificationBuilder
+from settings import Settings
 from telegram_notifier import TelegramNotifier
-
 
 logging.basicConfig(
     format="%(asctime)s %(name)s %(levelname)s: %(message)s",
@@ -25,22 +23,11 @@ logging.basicConfig(
 logger = logging.getLogger("accommodation_notifier")
 
 
-def check_environment_variables_exist() -> None:
-    error = False
-    for var in ["MSE-EMAIL", "MSE-PASSWORD", "TELEGRAM_BOT_TOKEN"]:
-        if not os.environ.get(var):
-            logger.error(f"ERROR : Missing environment variable {var}")
-            error = True
-    if error:
-        raise RuntimeError("Missing environment variables")
-    logger.info("All environement variables found.")
-
-
 def load_users_conf() -> List[UserConf]:
     return [
         UserConf(
             "Me",
-            "My telegram ID",
+            settings.MY_TELEGRAM_ID,
             "https://trouverunlogement.lescrous.fr/tools/36/search?bounds=4.861955965058465_45.794100252988855_4.8859456424876635_45.76704397585394",
         )
     ]
@@ -61,7 +48,10 @@ def create_driver(headless: bool = True) -> WebDriver:
 
     # Initialize the WebDriver with the configured options
     return webdriver.Chrome(
-        options=chrome_options, service=ChromeService(ChromeDriverManager().install())
+        options=chrome_options,
+        service=ChromiumService(
+            executable_path=binary_path,
+        ),
     )
 
 
@@ -77,16 +67,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    load_dotenv()
-    check_environment_variables_exist()
-    EMAIL = os.environ["MSE-EMAIL"]
-    PASSWORD = os.environ["MSE-PASSWORD"]
+    settings = Settings()
+    bot = telepot.Bot(token=settings.TELEGRAM_BOT_TOKEN)
+    bot.getMe()  # test if the bot is working
 
-    bot = telepot.Bot(os.environ["TELEGRAM_BOT_TOKEN"])
     user_confs = load_users_conf()
 
     driver = create_driver(headless=not args.no_headless)
-    Authenticator(EMAIL, PASSWORD).authenticate_driver(driver)
+    Authenticator(settings.MSE_EMAIL, settings.MSE_PASSWORD).authenticate_driver(driver)
 
     parser = Parser(driver)
     notification_builder = NotificationBuilder()

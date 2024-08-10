@@ -1,20 +1,15 @@
 import logging
-import os
 from time import sleep
 from typing import List, Optional
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from models import Accommodation, SearchResults, SearchUrl
+from settings import Settings
 
-LOGIN_URL = (
-    "https://www.messervices.etudiant.gouv.fr/envole/oauth2/login?redirect=/tul/"
-)
+settings = Settings()
 
 
 class Authenticator:
@@ -34,8 +29,8 @@ class Authenticator:
 
         # Step 1: Go to the login page
 
-        logging.info(f"Going to the login page: {LOGIN_URL}")
-        driver.get(LOGIN_URL)
+        logging.info(f"Going to the login page: {settings.MSE_LOGIN_URL}")
+        driver.get(settings.MSE_LOGIN_URL)
         sleep(self.delay)
 
         # Step 2: choose the correct authentication method

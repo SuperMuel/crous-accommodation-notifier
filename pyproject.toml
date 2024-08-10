@@ -14,8 +14,13 @@ python-dotenv = "^1.0.1"
 requests = "^2.32.3"
 beautifulsoup4 = "^4.12.3"
 selenium = "^4.23.1"
-webdriver-manager = "^4.0.2"
+pydantic-settings = "^2.4.0"
+pydantic = "^2.8.2"
+chromedriver-py = "^127.0.6533.99"
 
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.7"
 
 [build-system]
 requires = ["poetry-core"]
