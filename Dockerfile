@@ -1,22 +1,26 @@
-# Use an official Python runtime as a parent image
-FROM python:3.8
+# Utilisation d'une image Python de base
+FROM python:3.12-slim
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Configuration de l'environnement
+ENV POETRY_VERSION=1.8.3
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Install Chrome
-RUN apt-get update
-RUN apt-get install -y wget gnupg
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-RUN apt-get update
-RUN apt-get install -y google-chrome-stable
+# Installation de Poetry
+RUN pip install "poetry==$POETRY_VERSION"
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY . .
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Copier les fichiers du projet dans le conteneur
+COPY pyproject.toml poetry.lock /app/
 
-# Run main.py when the container launches
-CMD ["python", "./main.py"]
+# Installation des dépendances via Poetry
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-root --no-interaction --no-ansi
+
+# Copier le reste du code du projet dans le conteneur
+COPY . /app
+
+# Commande pour exécuter le script principal
+CMD ["poetry", "run", "python", "main.py"]

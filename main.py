@@ -41,7 +41,7 @@ def load_users_conf() -> List[UserConf]:
         UserConf(
             "Me",
             "My telegram ID",
-            "https://trouverunlogement.lescrous.fr/tools/32/search?bounds=4.863204361956362_45.791317414424945_4.8871940393855615_45.76566686734247",
+            "https://trouverunlogement.lescrous.fr/tools/36/search?bounds=4.861955965058465_45.794100252988855_4.8859456424876635_45.76704397585394",
         )
     ]
 
