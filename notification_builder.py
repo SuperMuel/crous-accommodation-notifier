@@ -4,10 +4,16 @@ from models import Notification, SearchResults
 class NotificationBuilder:
     """Class that builds notifications from search results."""
 
+    def __init__(self, notify_when_no_results: bool = False):
+        self.notify_when_no_results = notify_when_no_results
+
     def search_results_notification(
         self, search_results: SearchResults
-    ) -> Notification:
+    ) -> Notification | None:
         accommodations = search_results.accommodations
+        if not accommodations and not self.notify_when_no_results:
+            return None
+
         if not accommodations:
             message = "Aucun logement trouvé. Voici une liste des ponts de France où vous pourriez dormir : https://fr.wikipedia.org/wiki/Liste_de_ponts_de_France"
         else:

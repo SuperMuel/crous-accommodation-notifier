@@ -84,6 +84,7 @@ if __name__ == "__main__":
         logging.info(f"Handling configuration : {conf}")
         search_results = parser.get_accommodations(conf.search_url)
         notification = notification_builder.search_results_notification(search_results)
-        notifier.send_notification(conf.telegram_id, notification)
+        if notification:
+            notifier.send_notification(conf.telegram_id, notification)
 
     driver.quit()
