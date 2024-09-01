@@ -9,7 +9,8 @@ from selenium.webdriver.chrome.service import Service as ChromiumService
 from selenium.webdriver.chrome.webdriver import WebDriver
 from chromedriver_py import binary_path  # this will get you the path variable
 
-from src.accommodation_parser import Authenticator, Parser
+from src.authenticator import Authenticator
+from src.parser import Parser
 from src.models import UserConf
 from src.notification_builder import NotificationBuilder
 from src.settings import Settings

@@ -204,4 +204,4 @@ pip-selfcheck.json
 
 
 
-users.json
+*.ipynb
