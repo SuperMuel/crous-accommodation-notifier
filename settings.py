@@ -12,9 +12,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    MSE_LOGIN_URL: str = (
-        "https://www.messervices.etudiant.gouv.fr/envole/oauth2/login?redirect=/tul/"
-    )
+    MSE_LOGIN_URL: str = "https://www.messervices.etudiant.gouv.fr/envole/oauth2/login"
 
     MSE_EMAIL: str = Field(default=...)
     MSE_PASSWORD: str = Field(default=...)
