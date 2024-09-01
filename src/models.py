@@ -1,30 +1,27 @@
-from dataclasses import dataclass
 from typing import List, Optional
 
-
-SearchUrl = str
-
-
-@dataclass
-class Accommodation:
-    id: Optional[int]
-    title: Optional[str]
+from pydantic import HttpUrl, BaseModel
 
 
-@dataclass
-class SearchResults:
-    search_url: str
+class Accommodation(BaseModel):
+    id: int | None
+    title: str | None
+    price: float | str | None
+    overview_details: str | None = None
+    image_url: HttpUrl | None = None
+
+
+class SearchResults(BaseModel):
+    search_url: HttpUrl
     count: Optional[int]
     accommodations: List[Accommodation]
 
 
-@dataclass
-class Notification:
+class Notification(BaseModel):
     message: str
 
 
-@dataclass
-class UserConf:
+class UserConf(BaseModel):
     conf_title: Optional[str]
     telegram_id: str
-    search_url: str
+    search_url: HttpUrl

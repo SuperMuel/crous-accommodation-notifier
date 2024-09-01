@@ -8,5 +8,7 @@ class TelegramNotifier:
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    def send_notification(self, telegramId: str, notification: Notification) -> None:
-        self.bot.sendMessage(telegramId, notification.message)  # type: ignore
+    def send_notification(
+        self, telegramId: str, notification: Notification, parse_mode: str = "Markdown"
+    ) -> None:
+        self.bot.sendMessage(telegramId, notification.message, parse_mode=parse_mode)  # type: ignore

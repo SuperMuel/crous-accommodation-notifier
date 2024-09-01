@@ -1,4 +1,4 @@
-from src.models import Notification, SearchResults
+from src.models import Accommodation, Notification, SearchResults
 
 
 class NotificationBuilder:
@@ -21,9 +21,19 @@ class NotificationBuilder:
             verb = "sont" if len(accommodations) > 1 else "est"
             message = f"Bonne nouvelle 😯, {len(accommodations)} logement{s} {verb} disponible{s} : \n "
 
-        for accommodation in accommodations:
-            message += f"\n - {accommodation.title}"
+        def format_one_accommodation(accommodation: Accommodation):
+            price = (
+                f"{accommodation.price}€"
+                if isinstance(accommodation.price, float)
+                else accommodation.price
+            )
+
+            link = f"https://trouverunlogement.lescrous.fr/tools/36/accommodations/{accommodation.id}"
+
+            return f"[*{accommodation.title}*]({link}) ({price})"
+
+        message += "\n\n".join(map(format_one_accommodation, accommodations))
 
         message += f"\n\n{search_results.search_url}"
 
-        return Notification(message)
+        return Notification(message=message)

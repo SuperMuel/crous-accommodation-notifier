@@ -27,9 +27,10 @@ logger = logging.getLogger("accommodation_notifier")
 def load_users_conf() -> List[UserConf]:
     return [
         UserConf(
-            "Me",
-            settings.MY_TELEGRAM_ID,
-            "https://trouverunlogement.lescrous.fr/tools/36/search?bounds=4.861955965058465_45.794100252988855_4.8859456424876635_45.76704397585394",
+            conf_title="Me",
+            telegram_id=settings.MY_TELEGRAM_ID,
+            search_url="https://trouverunlogement.lescrous.fr/tools/36/search?bounds=4.861955965058465_45.794100252988855_4.8859456424876635_45.76704397585394",  # type:ignore
+            # search_url="https://trouverunlogement.lescrous.fr/tools/36/search",  # type:ignore
         )
     ]
 
@@ -83,7 +84,7 @@ if __name__ == "__main__":
 
     for conf in user_confs:
         logging.info(f"Handling configuration : {conf}")
-        search_results = parser.get_accommodations(conf.search_url)
+        search_results = parser.get_accommodations(conf.search_url)  # type: ignore
         notification = notification_builder.search_results_notification(search_results)
         if notification:
             notifier.send_notification(conf.telegram_id, notification)

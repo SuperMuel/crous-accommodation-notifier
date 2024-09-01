@@ -21,6 +21,7 @@ chromedriver-py = "^127.0.6533.99"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.5.7"
+pytest = "^8.3.2"
 
 [build-system]
 requires = ["poetry-core"]
