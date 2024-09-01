@@ -9,11 +9,11 @@ from selenium.webdriver.chrome.service import Service as ChromiumService
 from selenium.webdriver.chrome.webdriver import WebDriver
 from chromedriver_py import binary_path  # this will get you the path variable
 
-from accommodation_parser import Authenticator, Parser
-from models import UserConf
-from notification_builder import NotificationBuilder
-from settings import Settings
-from telegram_notifier import TelegramNotifier
+from src.accommodation_parser import Authenticator, Parser
+from src.models import UserConf
+from src.notification_builder import NotificationBuilder
+from src.settings import Settings
+from src.telegram_notifier import TelegramNotifier
 
 logging.basicConfig(
     format="%(asctime)s %(name)s %(levelname)s: %(message)s",
