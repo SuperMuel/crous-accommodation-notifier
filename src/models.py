@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import HttpUrl, BaseModel
+from pydantic import Field, HttpUrl, BaseModel
 
 
 class Accommodation(BaseModel):
@@ -25,3 +25,4 @@ class UserConf(BaseModel):
     conf_title: Optional[str]
     telegram_id: str
     search_url: HttpUrl
+    ignored_ids: List[int] = Field(default_factory=list)

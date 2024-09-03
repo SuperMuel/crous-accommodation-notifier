@@ -55,6 +55,10 @@ class Authenticator:
         # Step 4: Validate the rules
         self._validate_rules(driver)
 
+        # Step 5: Force update the auth status
+        driver.get("https://trouverunlogement.lescrous.fr/mse/discovery/connect")
+
+        # Done
         logger.info("Successfully authenticated to the CROUS website")
 
     def _validate_rules(self, driver: WebDriver) -> None:
